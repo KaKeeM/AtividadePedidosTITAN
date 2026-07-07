@@ -1,34 +1,41 @@
-
 import 'package:flutter/material.dart';
 
-class TasksWidget extends StatelessWidget {
+class Task extends StatelessWidget {
   final String title;
-  final List<String> tasks;
 
-  const TasksWidget({
+  const Task({
     super.key,
     required this.title,
-    required this.tasks,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title),
-        ...tasks.map(
-              (task) => Row(
-                children: [
-                  Checkbox(
-                      value: false,
-                      onChanged: (value){},
-                  ),
-                  Text(task)
-                ],
-              ),
-        )
-      ],
+
+    return Draggable(
+      data: title,
+      feedback: Material(
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          color: Colors.red,
+          child: Text(title),
+        ),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Checkbox(
+              value: false,
+              onChanged: (value) {},
+            ),
+            Text(title),
+          ],
+        ),
+      ),
     );
   }
 }
