@@ -16,34 +16,41 @@ class TasksWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DragTarget<String>(
-        onAcceptWithDetails: (details) {
-          onTaskReceived(
-            details.data,
-            title,
-          );
-        },
+      onAcceptWithDetails: (details) {
+        onTaskReceived(
+          details.data,
+          title,
+        );
+      },
 
-        builder: (context, candidateData, rejectedData) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      builder: (context, candidateData, rejectedData) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                title.toUpperCase(),
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.red[200],
+                ),
               ),
             ),
+
             const SizedBox(height: 10),
-              ...tasks.map(
-                  (task) =>
-                  Task(
-                    title: task,
-                  ),
+
+            ...tasks.map(
+                  (task) => Task(
+                title: task,
               ),
-            ],
-          );
-      }
+            ),
+
+          ],
+        );
+      },
     );
   }
 }
