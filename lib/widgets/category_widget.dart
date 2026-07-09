@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
-import 'tasks_widget.dart';
+import '../model/task_model.dart';
+import 'task_widget.dart';
 
-class TasksWidget extends StatelessWidget {
+class CategoryWidget  extends StatelessWidget {
   final String title;
-  final List<String> tasks;
-  final Function(String, String) onTaskReceived;
+  final List<TaskModel> tasks;
+  final Function(TaskModel, String) onTaskReceived;
+  final Function(TaskModel) onTaskCompleted;
 
-  const TasksWidget({
+  const CategoryWidget({
     super.key,
     required this.title,
     required this.tasks,
     required this.onTaskReceived,
+    required this.onTaskCompleted,
   });
-
   @override
   Widget build(BuildContext context) {
-    return DragTarget<String>(
+    return DragTarget<TaskModel>(
       onAcceptWithDetails: (details) {
         onTaskReceived(
           details.data,
@@ -41,13 +43,12 @@ class TasksWidget extends StatelessWidget {
             ),
 
             const SizedBox(height: 10),
-
             ...tasks.map(
                   (task) => Task(
-                title: task,
+                task: task,
+                    onTaskCompleted: onTaskCompleted,
               ),
             ),
-
           ],
         );
       },

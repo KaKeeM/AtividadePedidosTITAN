@@ -5,13 +5,13 @@ import '../theme/app_theme.dart';
 class CreateTaskWidget extends StatefulWidget {
 
   final List<String> categories;
+  final Function(String, String, DateTime) onCreateTask;
 
   const CreateTaskWidget({
     super.key,
     required this.categories,
+    required this.onCreateTask,
   });
-
-
 
   @override
   State<CreateTaskWidget> createState() => _CreateTaskWidgetState();
@@ -24,7 +24,6 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
   String? selectedCategory;
 
   Future<void> selectDate() async {
-
     final DateTime? picked = await showDatePicker(
       context: context,
       firstDate: DateTime(2020),
@@ -48,7 +47,6 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -66,20 +64,17 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
               hintText: 'Digite o nome da tarefa',
             ),
           ),
-
           DropdownButtonFormField<String>(
             initialValue: selectedCategory,
             decoration: const InputDecoration(
               labelText: 'Categoria',
             ),
-
             items: widget.categories.map((category) {
               return DropdownMenuItem<String>(
                 value: category,
                 child: Text(category),
               );
             }).toList(),
-
             onChanged: (value) {
               setState(() {
                 selectedCategory = value;
@@ -88,7 +83,6 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
           ),
           InkWell(
             onTap: selectDate,
-
             child: InputDecorator(
               decoration: const InputDecoration(
                 labelText: 'Data',
@@ -100,6 +94,16 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
                     : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
               ),
             ),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                widget.onCreateTask(
+                  titleController.text,
+                  selectedCategory!,
+                  selectedDate ?? DateTime.now(),
+                );
+          },
+              child: const Text('Criar')
           ),
         ],
       ),
